@@ -1,0 +1,24 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-color: #f0c8c4;
+  background: var(--critical-soft);
+  min-width: 0;
+}
+
+.title {
+  font-size: 0.9375rem;
+  color: var(--critical);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--text);
+  min-width: 0;
+}

@@ -1,0 +1,346 @@
+.meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+.freshness {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* This used to reach for `--warn-soft`, `--warn-text` and `--radius-sm`, none of which
+   exist, so the one banner that carries bad news rendered as unstyled body text. */
+.warning {
+  background: var(--caution-soft);
+  color: var(--caution);
+  border: 1px solid var(--caution-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.panel {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Whichever of the two is cheaper carries the accent edge -- the same treatment the
+   cheapest result gets in search, because it is the same claim. The split is not the
+   recommendation by default: sometimes one shop wins, and the page has to say so.
+   The dearer total is muted rather than hidden: it is what the saving is measured against. */
+.panel[data-winner] {
+  border-color: var(--accent-border);
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    var(--shadow-card);
+}
+
+.panel[data-loser] .total {
+  color: var(--text-muted);
+  font-weight: 620;
+}
+
+.winnerBadge {
+  margin-left: var(--space-2);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+  vertical-align: 0.1em;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.panelTitle {
+  font-size: 1rem;
+  font-weight: 620;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* The basket total is the number this page exists to compare, so it is set like the unit
+   price in search: the largest thing in its block, in tabular figures that line up between
+   the two panels sitting side by side. */
+.total {
+  font-size: 1.5rem;
+  font-weight: 680;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.savings {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  padding: 0.2rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.missing {
+  color: var(--caution);
+  font-size: 0.8125rem;
+}
+
+.ok {
+  color: var(--accent-text);
+  font-size: 0.8125rem;
+}
+
+/* -- basket lines ------------------------------------------------------------------------ */
+
+.lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.line {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  min-width: 0;
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.lines > .line:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.lineText {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.lineHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.itemName {
+  font-weight: 620;
+  min-width: 0;
+}
+
+.lineTotal {
+  font-weight: 620;
+  flex: none;
+}
+
+.product {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  min-width: 0;
+}
+
+.lineFacts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+
+.factDot {
+  color: var(--border-strong);
+}
+
+.inlineLink {
+  margin-left: auto;
+}
+
+.lineStore {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-sunken);
+  border-radius: var(--radius-control);
+  min-width: 0;
+}
+
+/* -- per-item results --------------------------------------------------------------------- */
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.item {
+  min-width: 0;
+}
+
+.item + .item {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-4);
+}
+
+.itemHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.itemTitle {
+  font-size: 0.9375rem;
+  font-weight: 620;
+}
+
+.needed {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* -- the store table ---------------------------------------------------------------------- */
+
+.stores td {
+  vertical-align: middle;
+}
+
+.storeName {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 580;
+}
+
+.storeBranch {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.numeric {
+  text-align: right;
+}
+
+.partial {
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+.openState[data-state="open"] {
+  color: var(--positive);
+  font-weight: 560;
+}
+
+.openState[data-state="closed"] {
+  color: var(--critical);
+}
+
+.openState[data-state="unknown"] {
+  color: var(--text-faint);
+}
+
+.bestRow {
+  background: var(--accent-softer);
+}
+
+.bestBadge {
+  flex: none;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.05rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* A four-column table of stores does not fit a phone. Each row becomes a block whose cells
+   carry their column name inline, the same reflow the offer list uses. */
+@media (max-width: 640px) {
+  .stores thead {
+    display: none;
+  }
+
+  .stores,
+  .stores tbody,
+  .stores tr,
+  .stores td {
+    display: block;
+    width: 100%;
+  }
+
+  .stores tr {
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--space-2) 0;
+  }
+
+  .stores tr:last-child {
+    border-bottom: 0;
+  }
+
+  .stores td {
+    border: 0;
+    padding: 0.15rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    text-align: right;
+  }
+
+  .stores td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+    flex: none;
+  }
+
+  /* The first cell holds the retailer and its branch, so label-beside-value squeezes the
+     name into a one-letter column. It stacks instead. */
+  .stores td:first-child {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    gap: 0;
+  }
+
+  .numeric {
+    text-align: right;
+  }
+}

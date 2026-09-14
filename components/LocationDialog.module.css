@@ -1,0 +1,141 @@
+/* A native <dialog>: the browser centres it, traps focus in it and makes the page behind it
+   inert. What is styled here is only how it looks, and it looks like the rest of the app --
+   hairline structure, one floating shadow, the accent rationed to the primary action. */
+.dialog {
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-float);
+  width: min(26rem, calc(100vw - 2 * var(--space-4)));
+  max-height: calc(100dvh - 2 * var(--space-6));
+}
+
+.dialog::backdrop {
+  background: rgba(22, 32, 26, 0.45);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+}
+
+/* The one decorative element, and it is doing a job: it says at a glance which question this
+   is before the sentence is read. */
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.locate {
+  justify-content: center;
+  width: 100%;
+  min-height: var(--tap);
+  margin-top: var(--space-1);
+}
+
+.privacy {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  line-height: 1.4;
+}
+
+/* A rule with the word sitting in it, rather than a heading: the two paths are alternatives
+   of equal standing, not a section and a fallback. */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap);
+  letter-spacing: 0.02em;
+}
+
+.row .btn,
+.row button {
+  min-height: var(--tap);
+  white-space: nowrap;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--critical);
+  line-height: 1.4;
+}
+
+.note {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+@media (max-width: 420px) {
+  .body {
+    padding: var(--space-4);
+  }
+
+  /* The field and its button stack rather than squeezing a 5-digit input to nothing. */
+  .row {
+    flex-direction: column;
+  }
+}

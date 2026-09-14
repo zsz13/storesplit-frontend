@@ -1,0 +1,111 @@
+.bar {
+  min-width: 0;
+}
+
+.bar:has(.list:not([hidden])) .summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: var(--tap-sm);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  text-align: left;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  min-width: 0;
+  transition: border-color var(--dur-state) var(--ease);
+}
+
+.summary:hover {
+  border-color: var(--border);
+}
+
+.count {
+  font-weight: 620;
+  color: var(--text);
+  flex: none;
+}
+
+.names {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.near {
+  flex: none;
+  color: var(--text-faint);
+}
+
+.chevron {
+  flex: none;
+  color: var(--text-faint);
+  transition: transform var(--dur-state) var(--ease);
+}
+
+.summary[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-control) var(--radius-control);
+  background: var(--surface);
+  max-height: 18rem;
+  overflow-y: auto;
+}
+
+.store {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 0.8125rem;
+}
+
+/* A shut store stays in the list and reads as secondary. The state is in words on the line
+   below -- "Closed - Opens 8:00 AM" -- so this only reinforces it. */
+.store[data-state="closed"] {
+  opacity: 0.62;
+}
+
+.hours {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+}
+
+.store[data-state="open"] .hours {
+  color: var(--accent-text);
+}
+
+.retailer {
+  font-weight: 580;
+}
+
+/* How many of the stores on this line are open, when the filter is on. */
+.openCount {
+  color: var(--accent-text);
+  font-weight: 580;
+  white-space: nowrap;
+}
+
+.branch {
+  color: var(--text-muted);
+  min-width: 0;
+}

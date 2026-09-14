@@ -1,0 +1,77 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  left: 0.6rem;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  /* Room either side of the field's own furniture: the pin on the left, the locate button
+     on the right, so a 5-digit ZIP never runs underneath either. */
+  padding-left: 2rem;
+  padding-right: 2.25rem;
+  letter-spacing: 0.02em;
+}
+
+.compact .input {
+  width: 9.25rem;
+  min-height: var(--tap);
+  background: var(--surface-sunken);
+  border-color: transparent;
+}
+
+.compact .input:hover,
+.compact .input:focus {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.error {
+  font-size: 0.75rem;
+  color: var(--critical);
+}
+
+/* The second way to answer the same question, in the place the ZIP already lives. It sits
+   inside the field's border so the two read as one control rather than a field and a button
+   that happen to be adjacent. */
+.locate {
+  position: absolute;
+  right: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition:
+    color var(--dur-state) var(--ease),
+    background var(--dur-state) var(--ease);
+}
+
+.locate:hover:not(:disabled) {
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+
+.locate:disabled {
+  cursor: default;
+}

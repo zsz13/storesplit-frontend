@@ -1,0 +1,36 @@
+/* The app shell: header, content, footer, in three rows that cannot squash each other.
+   `auto 1fr auto` is why this is a grid rather than the column flexbox it used to be. A flex
+   item shrinks by default, and `main`'s automatic minimum size holds it at its content
+   height, so on a page whose content nearly fills the viewport the *footer* absorbed the
+   whole deficit -- rendered 19px tall instead of scrolling the page. A grid track sized
+   `auto` is never squeezed to make room for `1fr`: the footer keeps its height on a short
+   page and follows the content on a long one, with no page-specific positioning anywhere. */
+.body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+  min-width: 0;
+}
+
+.main {
+  padding-top: var(--space-6);
+  min-width: 0;
+}
+
+/* Reachable by keyboard, invisible until it is focused. */
+.skip {
+  position: absolute;
+  left: var(--space-2);
+  top: -3rem;
+  z-index: 30;
+  padding: 0.5rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  font-weight: 580;
+  transition: top var(--dur-state) var(--ease);
+}
+
+.skip:focus-visible {
+  top: var(--space-2);
+}

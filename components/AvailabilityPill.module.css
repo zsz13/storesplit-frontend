@@ -1,0 +1,55 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem 0.15rem 0.4rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 560;
+  line-height: 1.35;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.pill[data-tone="in_stock"] {
+  color: var(--positive);
+  background: var(--positive-soft);
+  border-color: var(--accent-border);
+}
+
+/* Something is missing: the retailer publishes stock and this reading could not be used. */
+.pill[data-tone="unconfirmed"] {
+  color: var(--caution);
+  background: var(--caution-soft);
+  border-color: var(--caution-border);
+}
+
+/* Nothing is missing. A retailer that publishes no inventory is a standing fact, not a
+   warning, so it is set in the neutral ink the rest of the row's metadata uses. Amber here
+   told shoppers to distrust a price that is as real as any other on the page. */
+.pill[data-tone="not_published"] {
+  color: var(--text-muted);
+  background: var(--surface-sunken);
+  border-color: var(--border-subtle);
+}
+
+.pill[data-tone="not_published"] .dot {
+  background: none;
+  border: 1.5px solid currentColor;
+  width: 7px;
+  height: 7px;
+}
+
+.pill[data-tone="out_of_stock"] {
+  color: var(--critical);
+  background: var(--critical-soft);
+  border-color: var(--critical-border);
+}

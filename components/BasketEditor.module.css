@@ -1,0 +1,164 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* The composer and the rows share one width, so "Qty" and "Unit" head the columns they
+   label rather than sitting to their left -- and so a row does not stretch a one-word item
+   name across 800px of nothing, which is the wide dead gap the design brief was revised to
+   remove. Wide enough for "chicken breast" and the three controls, and no wider. */
+.form,
+.list {
+  max-width: 40rem;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+/* The same track widths the item rows below use, so "Qty" and "Unit" head the columns they
+   actually label instead of sitting 18px to their left. */
+.qty {
+  flex: 0 0 5.5rem;
+}
+
+.unit {
+  flex: 0 0 6.5rem;
+}
+
+/* One control height across the composer and the rows it feeds. They were 39px and 36px,
+   which reads as two kinds of table stacked on each other. */
+.form input,
+.form select,
+.itemQty,
+.itemUnit {
+  min-height: var(--tap-sm);
+  height: var(--tap-sm);
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5.5rem 6.5rem auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0.65rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* A row that cannot be priced. The tint is never the only signal -- the message below it
+   says what is wrong in words, and the control that is wrong carries `aria-invalid`. */
+.item[data-invalid] {
+  background: var(--critical-soft);
+}
+
+.item[data-invalid] .itemQty[aria-invalid],
+.item[data-invalid] .itemUnit[aria-invalid] {
+  border-color: var(--critical-border);
+}
+
+/* Spans every column on an implicit second row, so the message sits under the controls it
+   is about rather than squeezing them sideways. */
+.problem {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--critical);
+}
+
+.item:first-child {
+  border-top: none;
+}
+
+/* No `text-transform`: the name is title-cased in the component by `titleCaseName`, so it is
+   real text and matches every other surface exactly. `capitalize` would look the same on
+   screen and leave the accessible name, and anything copied out of the row, lowercase. */
+.itemName {
+  font-weight: 600;
+}
+
+.itemQty,
+.itemUnit {
+  padding: 0.3rem 0.5rem;
+}
+
+/* The same footprint as the composer's "Add", so the trailing cell is one width and the Qty
+   and Unit columns start at the same x in both. They were 18px apart, which reads as two
+   tables stacked rather than one form feeding one list. */
+.remove {
+  min-width: 3.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.form :global(.btn) {
+  min-width: 3.5rem;
+  justify-content: center;
+}
+
+@media (max-width: 520px) {
+  /* Narrower tracks on a phone -- and the composer takes the same ones, or its headers stop
+     labelling the columns beneath them. */
+  .item {
+    grid-template-columns: minmax(0, 1fr) 4.5rem 5.5rem auto;
+    gap: 0.35rem;
+  }
+
+  .qty {
+    flex: 0 0 4.5rem;
+  }
+
+  .unit {
+    flex: 0 0 5.5rem;
+  }
+}
+
+/* Below this the four tracks no longer fit: 4.5rem of Qty, 5.5rem of Unit and the remove
+   button leave the name column about two pixels wide, and "Chicken Breast" is set one
+   letter per line. The name takes a row of its own and the three controls share the one
+   underneath, which is the only arrangement that keeps a name readable at 320px. */
+@media (max-width: 380px) {
+  .item {
+    grid-template-columns: minmax(0, 1fr) 5.5rem auto;
+  }
+
+  .itemName {
+    grid-column: 1 / -1;
+  }
+}

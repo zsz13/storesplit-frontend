@@ -1,0 +1,206 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.editorCard {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Under the items they act on, not above them. The three buttons are one unit; at 320px
+   they need to be allowed to wrap against each other, or the group overflows its own row. */
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  min-width: 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.forZip {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  min-width: 0;
+}
+
+/* The action the sentence used to describe. It sits *beside* the ZIP rather than telling a
+   shopper which strip of the page to go and look at, which is why it is a button and not a
+   clause: "change it in the header" asked them to translate a layout word into a place to
+   click, and it stops being true the day the field moves. */
+.changeZip {
+  /* No negative margin pulling it back over the sentence: the focus ring is drawn 2px
+     outside the button, and it would then sit on top of the full stop before it. */
+  padding: 0.15rem 0.3rem;
+  border: none;
+  border-radius: var(--radius-control);
+  background: none;
+  color: var(--accent-text);
+  font: inherit;
+  font-weight: 560;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.changeZip:hover {
+  background: var(--accent-softer);
+  color: var(--accent-strong);
+}
+
+/* Quiet, because it throws work away. It keeps a hit area and a real label and loses only
+   the frame, so it reads as the least of the three actions rather than as a peer of
+   Compare -- and takes the critical colour on hover, where the intent is already formed. */
+.clear {
+  background: none;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+.clear:hover:not(:disabled) {
+  background: var(--critical-soft);
+  border-color: var(--critical-border);
+  color: var(--critical);
+}
+
+/* Pushes the filter to the left of the row and the buttons to the right. It collapses to
+   nothing when the row wraps on a narrow screen, so the controls stack rather than leaving a
+   gap between them. */
+.spacer {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Why Compare is disabled. `role="status"` so it is announced when it appears, rather than
+   only being discovered by a shopper wondering why the button stopped working. */
+.blocked {
+  margin: var(--space-2) 0 0;
+  font-size: 0.8125rem;
+  color: var(--critical);
+  text-align: right;
+}
+
+@media (max-width: 520px) {
+  .blocked {
+    text-align: left;
+  }
+}
+
+/* On a phone the primary action takes the full width and sits last, where a thumb is. It
+   was wrapping onto a line of its own anyway, right-aligned under "Clear basket" -- which
+   gave the destructive control the dominant slot and made the goal look like an afterthought.
+   Clear and Share then pair off on the line above it, so three actions stay three obvious
+   targets instead of a crowded row of half-width buttons. */
+@media (max-width: 560px) {
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* `:global`, because `chip` and `btn-primary` are global utilities: a bare class here
+     would be hashed into a module name that matches nothing, and the rule would silently do
+     nothing. The filter asks about the whole comparison rather than being one of the three
+     actions, so it takes its own line above them and keeps its own width. */
+  .actions > :global(.chip) {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .actions > :global(.btn-primary) {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .spacer {
+    display: none;
+  }
+}
+
+/* -- a basket that arrived in a link ------------------------------------------------------ */
+
+/* Offered, never applied: a shared basket replaces one somebody built, so it states what it
+   holds and what opening it costs before either button is pressed. */
+.shared {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-color: var(--accent-border);
+  background: var(--accent-softer);
+}
+
+.sharedTitle {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.sharedLede {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* Narrow on purpose. The pair is a name and an amount, and holding them at opposite ends of
+   a 1000px card is the same wide dead gap the editor rows were given a `max-width` to fix. */
+.sharedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: 24rem;
+  font-size: 0.875rem;
+}
+
+.sharedList li {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.sharedName {
+  font-weight: 600;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sharedActions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* The two one-line outcomes: a basket that went straight in because there was nothing to
+   overwrite, and a link this build could not read. */
+.sharedNote,
+.sharedBad {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-control);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 0.875rem;
+}
+
+.sharedBad {
+  border-color: var(--critical-border);
+  background: var(--critical-soft);
+  color: var(--critical);
+}
+
+@media (max-width: 560px) {
+  .sharedActions > :global(.btn) {
+    flex: 1 1 10rem;
+  }
+}
