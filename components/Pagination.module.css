@@ -1,0 +1,36 @@
+/* The three controls are one group, centred, rather than a button pinned to each end of a
+   1090px card with the page number floating between them. Paging is a single gesture: the
+   hand that presses Next is the hand that presses Previous, and a metre apart it is not. */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  min-width: 0;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-size: 0.8125rem;
+  font-weight: 560;
+  text-align: center;
+  min-width: 7.5rem;
+}
+
+.total {
+  font-weight: 400;
+  color: var(--text-faint);
+  font-size: 0.75rem;
+}
+
+/* A disabled pager reads as disabled. The shared `.btn:disabled` already lightens it; on a
+   pair sitting side by side the difference has to survive being seen out of the corner of
+   an eye, so the border goes too. */
+.nav :global(.btn):disabled {
+  border-color: transparent;
+  background: none;
+}

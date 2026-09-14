@@ -1,0 +1,9 @@
+/* The refusal the browser reported, under the buttons rather than beside them: the action
+   row is a flex row, and a sentence is not one of the answers on offer. */
+.error {
+  margin: 0;
+  flex-basis: 100%;
+  font-size: 0.8125rem;
+  color: var(--critical);
+  line-height: 1.4;
+}

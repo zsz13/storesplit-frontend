@@ -1,0 +1,37 @@
+/* Quiet until hovered: a page of twenty results carries forty of these, and forty green
+   links is a page nobody can scan. The hit area is padded out past the text so it clears
+   the 24px floor without the label having to grow. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  /* Clears the 24px target-size floor with room to spare, without inflating the strip:
+     these sit in a spaced group, so the gaps carry the rest. */
+  min-height: 30px;
+  padding: 0 0.45rem;
+  border-radius: var(--radius-control);
+  color: var(--accent-text);
+  font-size: 0.8125rem;
+  font-weight: 560;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-state) var(--ease),
+    color var(--dur-state) var(--ease);
+}
+
+.link:hover {
+  background: var(--accent-softer);
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+/* The absence, stated. Set as quietly as the page can manage while still being read. */
+.absent {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 0.45rem;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}

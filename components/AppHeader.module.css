@@ -1,0 +1,92 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 3.5rem;
+  min-width: 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 680;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  flex: none;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+/* The mark is two stacked bars: one price split across two stores. */
+.mark {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--accent) 0 45%,
+    var(--accent-border) 45% 55%,
+    var(--accent-strong) 55% 100%
+  );
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  flex: 1;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-sm);
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-control);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 540;
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.navLink[aria-current="page"] {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 620;
+}
+
+.zip {
+  flex: none;
+}
+
+@media (max-width: 560px) {
+  .inner {
+    flex-wrap: wrap;
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+}

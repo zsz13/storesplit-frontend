@@ -1,0 +1,44 @@
+.thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-thumb);
+}
+
+/* Big enough that a carton of eggs is recognisable at a glance, which is what a
+   thumbnail is for; small enough that a page of twenty still fits two screens. */
+.card {
+  width: 68px;
+  height: 68px;
+}
+
+@media (max-width: 460px) {
+  .card {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+.row {
+  width: 34px;
+  height: 34px;
+}
+
+/* Retailer photography is shot on white and cropped inconsistently; `contain` plus a little
+   padding keeps every pack the same apparent size instead of some bleeding to the edges. */
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+  background: #fff;
+}
+
+.placeholder {
+  color: var(--text-faint);
+  display: grid;
+  place-items: center;
+}

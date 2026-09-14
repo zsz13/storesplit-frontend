@@ -1,0 +1,163 @@
+/*
+ * The store strip. One component, three placements: under a result card's price, inside an
+ * expanded offer row, and under a basket line. It reads as one thing in all three because
+ * it is one thing.
+ */
+
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem var(--space-3);
+  min-width: 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.where,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem var(--space-2);
+  min-width: 0;
+}
+
+/* The place-and-time block takes the room; the two links keep theirs. */
+.where {
+  flex: 1 1 auto;
+}
+
+.actions {
+  flex: 0 0 auto;
+}
+
+/* `overflow-wrap: anywhere` on `body` stops a long product title pushing the page sideways,
+   but a retailer's name is a proper noun and one short token: applied to it, "Raley's" broke
+   after the apostrophe on every card at 375. It is short enough to never need the help. */
+.retailer {
+  font-weight: 620;
+  color: var(--text);
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+
+.branch {
+  min-width: 0;
+  color: var(--text);
+}
+
+.address {
+  min-width: 0;
+  color: var(--text-faint);
+}
+
+/* -- open / closed ----------------------------------------------------------------------
+   Never colour alone: the sentence says it, the dot repeats it. */
+
+.hours {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  font-weight: 540;
+}
+
+.hoursDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--text-faint);
+}
+
+/* The dot carries the status; the sentence carries the fact. Setting the sentence in the
+   accent as well put a fourth job on a colour rationed to three, and twenty green "Open
+   until 10:00 PM"s down a page is how an accent stops being one. Never colour alone: the
+   words say "Open until 10:00 PM" and "Closed" whatever the dot is doing. */
+.hours[data-state="open"] {
+  color: var(--text-muted);
+}
+
+.hours[data-state="open"] .hoursDot {
+  background: var(--positive);
+  box-shadow: 0 0 0 3px var(--positive-soft);
+}
+
+.hours[data-state="closed"] {
+  color: var(--text-muted);
+}
+
+.hours[data-state="closed"] .hoursDot {
+  background: var(--critical);
+  box-shadow: 0 0 0 3px var(--critical-soft);
+}
+
+/* A store nobody publishes hours for gets the faintest treatment on the row, because it is
+   the one piece of information here that is genuinely absent. */
+.hours[data-state="unknown"] {
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+.hours[data-state="unknown"] .hoursDot {
+  background: none;
+  border: 1.5px solid currentColor;
+  width: 7px;
+  height: 7px;
+}
+
+/* The two links come from `OfferLinks`, which owns their look; this only pulls the first
+   of them back level with the text it follows. */
+.actions > :global(a):first-of-type,
+.actions > :global(span):first-of-type {
+  margin-left: -0.45rem;
+}
+
+/* -- inline: the collapsed card's one line ---------------------------------------------- */
+
+.line[data-variant="inline"] {
+  font-size: 0.8125rem;
+  column-gap: var(--space-2);
+}
+
+.line[data-variant="inline"] .branch {
+  color: var(--text-muted);
+}
+
+/* On a phone the branch and the address want the full width, so those stack -- but the
+   status row does not: hours and the two links stay on one line, because stacking them too
+   is what turned a result card into a third of a screen. */
+/* On a phone the strip is two lines and no more: the store and its hours, then the two
+   links. Three lines here is what made a result card a third of a screen on the viewport
+   this product is mostly used in. */
+@media (max-width: 560px) {
+  .line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .actions {
+    flex: none;
+    gap: 0.2rem var(--space-1);
+  }
+
+  /* The branch is what gives way. "Open until 10:00 PM" is a fixed short phrase and the
+     answer a shopper is looking for; a branch name is identification, and the front of it
+     identifies as well as the whole of it. */
+  .line[data-variant="inline"] .where {
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .line[data-variant="inline"] .branch {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .line[data-variant="inline"] .hours {
+    flex: none;
+  }
+}

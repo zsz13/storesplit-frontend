@@ -1,0 +1,96 @@
+/*
+ * Every price is written twice, and the *unit* price is the one set large.
+ *
+ * This was the other way round, and it inverted the product's own thesis: the list is ranked
+ * by unit price, so the number a shopper scans down the column has to be the number the rank
+ * is made of. With the pack price dominant, the card marked "cheapest overall" carried the
+ * biggest figure on the page -- $17.49 for a 150-count tray -- and the list read as if it
+ * were in no order at all.
+ */
+
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  min-width: 0;
+}
+
+/* The comparison. Tabular, so a column of them can be read straight down. */
+.unit {
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.lead .unit {
+  font-size: 1.25rem;
+}
+
+.row .unit {
+  font-size: 1rem;
+}
+
+/*
+ * The same rate in the other weight unit, sitting directly under the rate it restates.
+ *
+ * It is set at the smallest size on the block on purpose. A shopper who thinks in ounces can
+ * find it; one who does not never has to read past it -- and it must never read as a second
+ * candidate for the comparison, because the list is not ranked by it. That is also why it is
+ * marked with an approximation sign: it is a convenience derived from the price above, and
+ * the price above is the one the retailer and the ranking both agree on.
+ */
+.secondary {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* What you actually hand over. Context for the number above it, never the headline. */
+.price {
+  font-weight: 560;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+.row .price {
+  font-size: 0.78125rem;
+}
+
+/*
+ * "2.5-5.25 lb - final price based on weight". The one line on a price block that is a
+ * sentence rather than a number, so it is set as one: no tabular figures, and faint enough
+ * that it explains the price above it without competing with it. It appears only for a
+ * variable-weight item, which is a small minority of what a grocery list contains.
+ */
+.weight {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  /* Long enough to wrap on a phone; wrapping is better than a row that scrolls sideways. */
+  overflow-wrap: anywhere;
+}
+
+.was {
+  color: var(--sale);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.loyalty {
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+/* On a card the price block is right-aligned against the edge of the row; inside the offer
+   table it reads left-to-right with the rest of the line. */
+@media (min-width: 720px) {
+  .lead {
+    align-items: flex-end;
+    text-align: right;
+  }
+}

@@ -1,0 +1,492 @@
+/*
+ * Design tokens and the handful of primitives every surface shares.
+ * The direction they implement is written down in DESIGN-BRIEF.md.
+ *
+ * Structure is carried by hairline borders, not by shadows: a card gets a border, and the
+ * only thing that casts a shadow is something genuinely floating. Green is the one accent
+ * and it is rationed to three jobs -- the best price, the active control, the primary action.
+ */
+
+:root {
+  /* -- surfaces: a warm neutral ground, so retailer photography shot on white sits flat.
+     The ground is a shade deeper than the card, and deliberately: at #f7f7f5 a white card
+     on it was a border and nothing else, and a page of twenty read as ruled paper. -- */
+  --bg: #f2f3ef;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f4f5f1;
+  --surface-hover: #f9faf7;
+
+  --border-subtle: #e6e8e2;
+  --border: #d8dbd2;
+  --border-strong: #bfc4b8;
+
+  --text: #16201a;
+  --text-muted: #5c6760;
+  /* Darkened from #8a938c, which measured 3.17:1 on white and worse on the tinted grounds --
+     below the 4.5:1 floor everywhere, under real content: store addresses, "from $3.99", the
+     result count. It now measures 4.75:1 on the deepest ground the app uses and 5.29:1 on
+     white. The three ink levels are consequently closer together than they were, so the
+     hierarchy between muted and faint is carried mostly by size and weight rather than by
+     colour -- which is the right way round. A third level that reads clearly fainter *and*
+     passes AA on a near-white ground does not exist. */
+  --text-faint: #646e67;
+
+  /* -- accent: rationed to best price, active control, primary action -- */
+  --accent: #17714a;
+  --accent-strong: #10583a;
+  --accent-soft: #e4f2ea;
+  --accent-softer: #f1f9f4;
+  --accent-text: #0d4b2f;
+  --accent-border: #a9d6bf;
+
+  /* -- status. Never the only signal: every one of these ships with a word beside it. --
+     Each has a border of its own so a pill is legible against both white and the sunken
+     ground, rather than being a tint that disappears on one of them. */
+  --positive: #17714a;
+  --positive-soft: #e4f2ea;
+  --caution: #8a5a00;
+  --caution-soft: #fdf3de;
+  --caution-border: #edd9ac;
+  --critical: #a32017;
+  --critical-soft: #fbeae8;
+  --critical-border: #f0c8c4;
+  /* A reduction is good news; it must not share the out-of-stock red. */
+  --sale: #8a4b00;
+
+  /* -- chart series. The one place in the app where colour encodes *data* rather than
+     meaning, so it is its own closed set and not the accent. Okabe-Ito's colourblind-safe
+     four, validated against `--surface` for lightness band, chroma floor, all-pairs CVD
+     separation and contrast; assigned in this fixed order and never cycled into a hue
+     nobody checked (a fifth series repeats the order with a dash instead). The app's green
+     is deliberately absent: it is rationed to best price, active control and primary
+     action, and a line that happened to be green would read as a verdict.
+     See DESIGN-BRIEF.md, "The price chart". -- */
+  --series-1: #0072b2;
+  --series-2: #d55e00;
+  --series-3: #009e73;
+  --series-4: #cc79a7;
+
+  /* -- shape -- */
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-thumb: 8px;
+  --radius-pill: 999px;
+
+  /* The only shadow in the system, for the one element that floats. */
+  --shadow-float: 0 1px 2px rgba(22, 32, 26, 0.06), 0 4px 16px rgba(22, 32, 26, 0.07);
+  /* Not a shadow so much as a contact edge: a single hairline of shade under a card, so a
+     column of them reads as objects on a ground instead of as fields in a table. Structure
+     is still carried by the border -- this is what it sits on, and it is why the ground
+     below had to deepen slightly. */
+  --shadow-card: 0 1px 1px rgba(22, 32, 26, 0.035);
+  --shadow-card-hover: 0 1px 2px rgba(22, 32, 26, 0.05), 0 2px 8px rgba(22, 32, 26, 0.05);
+
+  /* -- rhythm -- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  --font:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --max-width: 1120px;
+
+  /* The comfortable touch target, in px on purpose. The root font size here is 15px, so a
+     `rem` is 15px and `2.75rem` comes out at 41px -- three short, and silently so. */
+  --tap: 44px;
+  /* Secondary controls that sit in a spaced group; well clear of the 24px floor, and the
+     gaps between them supply the rest. */
+  --tap-sm: 36px;
+
+  /* -- motion: state is 120ms, the offer-table expand is 180ms, nothing animates on entry -- */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-state: 120ms;
+  --dur-expand: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-state: 0ms;
+    --dur-expand: 0ms;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* `hidden` must win over a component's own `display`. Without this a module class that sets
+   `display: grid` silently defeats the attribute, and a disclosure ships permanently open --
+   which is exactly what happened to the store list. */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Long retailer titles and store names must wrap rather than push the page sideways. */
+body {
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 680;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 1.1875rem;
+}
+
+h3 {
+  font-size: 1.0625rem;
+}
+
+p {
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input,
+select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  padding: 0.5rem 0.7rem;
+  min-height: var(--tap);
+  transition: border-color var(--dur-state) var(--ease);
+}
+
+input:hover:not(:disabled),
+select:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+input::placeholder {
+  color: var(--text-faint);
+}
+
+/* One focus treatment everywhere, and it is always visible. */
+:where(a, button, input, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-thumb);
+}
+
+/* -- layout primitives ------------------------------------------------------------------ */
+
+/* `padding-inline`, never the `padding` shorthand. `.container` is combined with a module
+   class on almost every element that uses it, both selectors have the same specificity, and
+   the emitted order is decided by the import graph -- so a shorthand here silently resets a
+   module's `padding-top`/`padding-bottom` depending on which file happened to load last.
+   That is exactly what flattened the footer to an 18px sliver: `Footer.module.css` loads
+   before this file (layout.tsx imports the components above `./globals.css`) and lost its
+   vertical padding, while `layout.module.css` loads after it and kept its own. */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-inline: var(--space-4);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* A row of facts set apart from the prose around it: the store strip under a price, the
+   summary under a basket panel's heading. Sunken rather than bordered, so it groups
+   without adding a second box inside a box. */
+.inset {
+  background: var(--surface-sunken);
+  border-radius: var(--radius-control);
+  padding: var(--space-2) var(--space-3);
+}
+
+/* -- controls --------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 560;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-state) var(--ease),
+    border-color var(--dur-state) var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.btn:disabled {
+  color: var(--text-faint);
+  background: var(--surface-sunken);
+  border-color: var(--border-subtle);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.btn-primary:disabled {
+  background: var(--surface-sunken);
+  border-color: var(--border-subtle);
+  color: var(--text-faint);
+}
+
+.btn-sm {
+  min-height: var(--tap-sm);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-sm);
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 520;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-state) var(--ease),
+    border-color var(--dur-state) var(--ease),
+    color var(--dur-state) var(--ease);
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.chip[aria-pressed="true"],
+.chip[aria-checked="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* -- type roles ------------------------------------------------------------------------- */
+
+.muted {
+  color: var(--text-muted);
+}
+
+.faint {
+  color: var(--text-faint);
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Prices are set in tabular figures so digits line up down a column of results.
+   `nowrap` is the counterweight to the `overflow-wrap: anywhere` above: that keeps long
+   retailer titles from pushing the page sideways, but left to itself it also breaks "$1.89"
+   across two lines. Every value wearing these classes is a short number that must stay whole. */
+.mono,
+.tabular {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -- feedback --------------------------------------------------------------------------- */
+
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: -0.15em;
+  flex: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* A skeleton is a shape, not a shimmer: it holds the layout so nothing jumps when data
+   arrives. The sweep is slow enough to read as "loading" and not as decoration. */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-sunken) 25%,
+    #e9ebe5 37%,
+    var(--surface-sunken) 63%
+  );
+  background-size: 400% 100%;
+  animation: sweep 1.4s ease-in-out infinite;
+  border-radius: var(--radius-thumb);
+}
+
+@keyframes sweep {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+
+  .skeleton {
+    animation: none;
+    background: var(--surface-sunken);
+  }
+}
+
+/* -- tables ----------------------------------------------------------------------------- */
+/* Used by the basket comparison, where the data genuinely is tabular. Results on the search
+   page are cards, not a table: they are one comparable thing each, not rows of one entity. */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: top;
+}
+
+th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* A wide table scrolls inside its own box; the page never scrolls sideways. */
+.table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}

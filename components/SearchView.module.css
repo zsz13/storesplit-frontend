@@ -1,0 +1,132 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0;
+  padding-bottom: var(--space-12);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 46rem;
+}
+
+.lede {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+  min-width: 0;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+/* No `text-transform`: `titleCaseName` cases the heading in the component, so the words are
+   real text. `capitalize` looked identical and left the accessible name, and anything copied
+   out of the heading, lowercase -- and it never reached the empty states beside it, which is
+   how "Chicken Breast" came to head a page whose empty state said "chicken breast". */
+.title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.unitHint {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--accent-text);
+}
+
+.count {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* The availability radiogroup and the Open now toggle read as one row of filters, and wrap
+   together on a narrow screen rather than stacking into two separate-looking bands. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  transition: opacity var(--dur-state) var(--ease);
+}
+
+/* A page change dims the list it is replacing rather than removing it: the reader keeps
+   their place, and nothing collapses to zero height and back. */
+.list[data-busy] {
+  opacity: 0.55;
+}
+
+.unknown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  min-width: 0;
+}
+
+/* Set apart from the ranked results by a band of its own rather than by a rule, because a
+   rule reads as "more of the same, further down" and this is a different claim. */
+.unknownHead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+}
+
+/* Not amber. Nothing here is a warning -- these are real prices at real shops, and the
+   heading that used to be the colour of a caution pill said otherwise. */
+.unknownTitle {
+  font-size: 1.0625rem;
+  color: var(--text);
+}
+
+.unknownNote {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  max-width: 62ch;
+}

@@ -1,0 +1,56 @@
+/* This is a toggle, and the four chips beside it are a radiogroup. Sharing their skin at
+   the same 4px spacing made the row read as a contradiction: two "selected" pills in what
+   is visually one set, when a radiogroup can only have one. The rule and the wider gap say
+   where one control ends and the other begins; `aria-pressed` vs `aria-checked` already
+   said it to a screen reader. */
+.chip {
+  min-height: var(--tap-sm);
+  margin-left: var(--space-3);
+  position: relative;
+}
+
+.chip::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-3) / 2);
+  top: 50%;
+  height: 1.1rem;
+  border-left: 1px solid var(--border);
+  transform: translateY(-50%);
+}
+
+/* Wrapped onto its own line there is nothing to divide it from, and a rule floating at the
+   start of a row is just a mark. */
+@media (max-width: 560px) {
+  .chip {
+    margin-left: 0;
+  }
+
+  .chip::before {
+    display: none;
+  }
+}
+
+/* The same 6px dot `StoreLine` puts beside "Open until 10:00 PM", so the control and the
+   rows it filters use one vocabulary. It is decoration here -- the label says "Open now" in
+   words and `aria-pressed` says whether it is on -- so it is hidden from assistive tech. */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  flex: none;
+}
+
+.dot[data-on] {
+  background: var(--positive);
+  box-shadow: 0 0 0 3px var(--positive-soft);
+}
+
+/* How many stores are open, in the tabular figures the rest of the app counts in. */
+.count {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+  color: inherit;
+  opacity: 0.75;
+}
